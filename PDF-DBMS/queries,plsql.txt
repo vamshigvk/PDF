@@ -1,0 +1,102 @@
+ALTER USER hr ACCOUNT UNLOCK identified by hr;
+set server output on to 3600000;
+
+
+declare
+PIE constant number:=3.14;
+radius number:=&radius;
+begin
+dbms_output.put_line('area:'|| pie*power(radius,2));
+dbms_output.put_line('diameter:'||2*PIE*radius);
+end;
+/
+
+
+DECLARE
+nsalary emp.sal%type;
+begin
+select sal into nsalary from emp
+where empno=7369;
+update emp set sal=sal+100
+where empno=7369;
+end;
+/
+
+
+
+
+declare 
+nRecord staff_master%rowtype;
+begin
+select * into nRecord from staff_master where staff_code=100001;
+update staff_master set staff_sal=nRecord.staff_sal+101 where staff_code=100001;
+end;
+/
+
+
+declare
+dept_info department_master%rowtype;
+begin
+dept_info.dept_code:=70;
+dept_info.dept_name:='personnel';
+insert into department_master values dept_info;
+end;
+/
+
+
+
+
+
+declare
+	 TYPE recname is RECORD(customer_id number, customer_name varchar2(20));
+	 var_rec recname;
+BEGIN
+	 var_rec.customer_id:=20;
+	 var_rec.customer_name:='smith';
+	 dbms_output.put_line(var_rec.customer_id||''||var_rec.customer_name);
+END;
+/
+
+
+
+
+create table bookDetails
+(
+BookId number,
+Title varchar2(20),
+Author varchar(20)
+);
+
+
+declare
+TYPE bookstype is RECORD(book_name bookdetails.title%type, book_id bookdetails.bookid%type, book_author bookdetails.author%type );
+var_book1 bookstype;
+BEGIN
+var_book1.book_id:=101;
+var_book1.book_name:='hannah';
+var_book1.book_author:='baker';
+dbms_output.put_line(var_book1.book_id||''||var_book1.book_name||''||var_book1.book_author);
+end;
+/
+
+insert into bookDetails values var_book1;
+
+
+
+
+
+
+
+--implicit cursor
+
+
+begin 
+update department_master set dept_name='production' where dept_code=80;
+if sql%NOTFOUND then
+insert into department_master values(80,'test');
+end if;
+end;
+/
+
+
+--expicit cursor
